@@ -1,8 +1,9 @@
 const express = require("express");
 const CategoryModel = require("../models/category");
+const authMiddleware = require("../middleware/authmiddle");
 const categoryRoute = express.Router();
 
-categoryRoute.post("/", async (req, res) => {
+categoryRoute.post("/", authMiddleware,async (req, res) => {
   try {
     const { category } = req.body;
     if (!category) {
@@ -22,7 +23,7 @@ categoryRoute.post("/", async (req, res) => {
   }
 });
 
-categoryRoute.get("/", async (req, res) => {
+categoryRoute.get("/",authMiddleware, async (req, res) => {
   try {
     const categories = await CategoryModel.find();
     res.status(200).json(categories);
